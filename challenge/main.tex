@@ -429,7 +429,7 @@ describe it 2. Data cleaning (e.g.~remove nulls, feature encoding, etc.)
 Improving our Kaggle score, where we try to improve the score with
 advanced techniques
 
-    \section{1. Load the dataset and describe
+    \section{Load the dataset and describe
 it}\label{load-the-dataset-and-describe-it}
 
     We are given two datasets, one called \texttt{train.csv} and the other
@@ -682,7 +682,7 @@ observe that the dataset:
   encode.
 \end{itemize}
 
-    \subsection{1.1 Target Variable}\label{target-variable}
+    \subsection{Target Variable}\label{target-variable}
 
     The target variable `y' in the dataset is \textbf{SalePrice}
 
@@ -736,7 +736,7 @@ the data.
     And indeed we observe that the data is right-skewed. We will need to
 appy a transformation to make it less ``unbalanced''.
 
-    \subsection{1.2 Correlation}\label{correlation}
+    \subsection{Correlation}\label{correlation}
 
     Let's go on and see the how the different columns contribute to the
 \textbf{SalePrice} target column by using correlation.
@@ -822,7 +822,7 @@ conservative and later see if it was the right decision. -
 \textbf{TotalBSmtSF} \& \textbf{1stFlrSF} with a really out-of-charts
 outliers, most certainly an error in the data.
 
-    \section{2. Data Cleaning}\label{data-cleaning}
+    \section{Data Cleaning}\label{data-cleaning}
 
     RECAP: In the previous phase, we identified several items that we need
 to address: - \textbf{Missing Data}, We found numerous columns with
@@ -846,7 +846,7 @@ once the data is clean, we will perform \textbf{feature encoding} to
 convert categorical columns into a numerical format that machine
 learning models can process.
 
-    \subsubsection{2.1 Filling ``missing'' data and
+    \subsubsection{Filling ``missing'' data and
 filling}\label{filling-missing-data-and-filling}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
@@ -894,7 +894,7 @@ filling}\label{filling-missing-data-and-filling}
 Rows with NaN values after cleaning: 0
     \end{Verbatim}
 
-    \subsubsection{2.2 Outliers}\label{outliers}
+    \subsubsection{Outliers}\label{outliers}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{11}{\boxspacing}
@@ -914,7 +914,7 @@ Before removal of outliers 1459
 After removal of outliers 1455
     \end{Verbatim}
 
-    \subsubsection{2.3 Adjusting skewness}\label{adjusting-skewness}
+    \subsubsection{Adjusting skewness}\label{adjusting-skewness}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{12}{\boxspacing}
@@ -960,7 +960,7 @@ assigned to. For example the \textbf{Neighborhood}, which represents the
 physical location of the house in the city, can assume different values
 dependending, of course, by the neighboorhood the house is in.
 
-    \subsubsection{2.4 Encoding}\label{encoding}
+    \subsubsection{Encoding}\label{encoding}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{13}{\boxspacing}
@@ -1185,7 +1185,7 @@ Id
 \end{Verbatim}
 \end{tcolorbox}
         
-    \section{3. Train \& Evaluate}\label{train-evaluate}
+    \section{Train \& Evaluate}\label{train-evaluate}
 
     Now that we have a clean dataset, we can train some models and evaluate
 them using \textbf{Root Mean Squared Error (RMSE)}, \textbf{R-squared}.
@@ -1252,7 +1252,7 @@ of the house prices.
 \textbf{The higher the better} because it means that our model can
 explain the complexity of the data well.
 
-    \subsection{3.1 Data preparation}\label{data-preparation}
+    \subsection{Data preparation}\label{data-preparation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{17}{\boxspacing}
@@ -1368,8 +1368,7 @@ Shape of the splitted test dataset (291, 226)
 \end{Verbatim}
 \end{tcolorbox}
 
-    \subsection{3.2 Training a Baseline
-model}\label{training-a-baseline-model}
+    \subsection{Training a Baseline model}\label{training-a-baseline-model}
 
     Let's now go on training the \textbf{Rigde Regression} model. Why? We
 want to come to an acceptable solution by starting with a simple model
@@ -1494,7 +1493,7 @@ The RMSE was \textbf{0.1137}. This means that on the log-transformed
 scale, our model's predictions are, on average, off by about
 \textbf{0.11} log-scaled dollars.
 
-    \subsubsection{3.2.1 Finetuning}\label{finetuning}
+    \subsubsection{Finetuning}\label{finetuning}
 
     Since we need to set the hyperparameter \(\alpha\), it's a good idea to
 finetune the model with \textbf{GridSearchCV} to find the best one.
@@ -1584,7 +1583,7 @@ R-squared: 0.9192
     We found a slightly better model with \(\alpha=26.366508987303583\), a
 slightly lower RMSE and higher R-squared.
 
-    \subsection{4. Advanced Models}\label{advanced-models}
+    \subsection{Advanced Models}\label{advanced-models}
 
     Our tuned \textbf{Ridge Regression} model provided a strong linear
 baseline, but the relationships between the features and the sale price
@@ -1609,7 +1608,7 @@ By training and evaluating these models, we can determine if a more
 complex, non-linear approach yields a significant improvement over our
 initial Ridge baseline.
 
-    \subsubsection{4.1 Random Forest}\label{random-forest}
+    \subsubsection{Random Forest}\label{random-forest}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{25}{\boxspacing}
@@ -1692,7 +1691,7 @@ DecisionTreeRegressor()
 this newly trained model. It's expected since we have not yet looked for
 the optimal parameters for this regressor.
 
-    \paragraph{4.1.1 Finetuning}\label{finetuning}
+    \paragraph{Finetuning}\label{finetuning}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{29}{\boxspacing}
@@ -1757,7 +1756,7 @@ significantly better to justify its added complexity. Our tuned
 \textbf{Random Forest} failed to do this. Also, maybe the different
 features of the dataset are more linear than we thought they would be!
 
-    \subsubsection{4.2 XGBoost}\label{xgboost}
+    \subsubsection{XGBoost}\label{xgboost}
 
     Let's try to train another model, \textbf{XGBoost} (eXtreme Gradient
 Boosting). This tree-based model works by building multiple models, each
@@ -1845,7 +1844,7 @@ xgboost             0.144381  0.867377
 \end{Verbatim}
 \end{tcolorbox}
         
-    \paragraph{4.2.1 Finetuning}\label{finetuning}
+    \paragraph{Finetuning}\label{finetuning}
 
     The \textbf{Tuned Ridge} regressor is still the best performing model
 here. Let's see if we can optimize the \textbf{XGBoost} model
@@ -1908,7 +1907,7 @@ xgboost             0.144381  0.867377
     The tuned \textbf{XGBoost} model achieved the best \textbf{RMSE} and
 \textbf{R-squared}.
 
-    \section{4. Results}\label{results}
+    \section{Results}\label{results}
 
     In conclusion, we successfully executed all the steps we planned: 1.
 \textbf{Data Exploration}, where we took a look at the given dataset,
@@ -1922,7 +1921,7 @@ different regressors, looking each time for the best parameters
 combination of each using GridSearchCV. In the end we found the best
 model to be XGBoost.
 
-    \subsection{4.1 Final Step: Submission}\label{final-step-submission}
+    \subsection{Final Step: Submission}\label{final-step-submission}
 
 What's left now is to get the best model we found, retrain it on the
 whole \textbf{train.csv} dataset and create a \textbf{submission.csv}
@@ -2056,7 +2055,7 @@ Here are the first 5 predictions:
 4  1465  180924.343750
     \end{Verbatim}
 
-    \section{5. {[}Bonus{]} Improving our Kaggle
+    \section{{[}Bonus{]} Improving our Kaggle
 score}\label{bonus-improving-our-kaggle-score}
 
     Our solutions scores \(0.12810\)
@@ -2070,7 +2069,7 @@ other and retrain the models on this new dataset. 2. \textbf{Model
 ensembling}, which consists of using our best models predictions as new
 features upon which to train another model.
 
-    \subsection{5.1 Feature Engineering}\label{feature-engineering}
+    \subsection{Feature Engineering}\label{feature-engineering}
 
     Looking deeper at the
 \href{./data/data_description.txt}{data\_description.txt} file, we can
@@ -2239,7 +2238,7 @@ Here are the first 5 predictions:
 features scores worse on Kaggle (\(0.13214\)) than our
 \textbf{xgboost\_best} best submission.
 
-    \subsection{5.2 Model Ensembling
+    \subsection{Model Ensembling
 (Stacking)}\label{model-ensembling-stacking}
 
     \textbf{Stacking} is an advanced ensembling technique that involves
@@ -2358,7 +2357,7 @@ xgboost                            0.144381  0.867377
 we trained so far!
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{ }{\boxspacing}
+\prompt{In}{incolor}{41}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{X\PYZus{}full\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{y\PYZus{}full\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
@@ -2421,6 +2420,11 @@ Generating meta-features for the entire training set (out-of-fold){\ldots}
 Processing train meta-features with model 1/3: ridge\_best{\ldots}
 Processing train meta-features with model 2/3: xgboost\_best{\ldots}
 Processing train meta-features with model 3/3: random\_forest\_best{\ldots}
+Generating test meta-features with model 1/3{\ldots}
+Generating test meta-features with model 2/3{\ldots}
+Generating test meta-features with model 3/3{\ldots}
+Training the final stacked model on full meta-features{\ldots}
+File saved!
     \end{Verbatim}
 
     And indeed submitting this on Kaggle results in our best-so-far score of
