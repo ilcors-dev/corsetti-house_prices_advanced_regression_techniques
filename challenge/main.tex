@@ -1,0 +1,2434 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{main}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{House Prices - Advanced Regression
+Techniques}\label{house-prices---advanced-regression-techniques}
+
+    The objective of this challenge is to build a regression model to
+predict the final price of homes in the dataset.
+
+The dataset has 79 features, describing the characteristics of each
+given house. The description of each feature can be found in the
+\href{./data/data_description.txt}{data\_description.txt} file.
+
+We will approach the problem in different steps: 1. Load the dataset and
+describe it 2. Data cleaning (e.g.~remove nulls, feature encoding, etc.)
+3. Train \& Evaluate (rmse, r-squared) 4. Results 5. {[}Bonus{]}
+Improving our Kaggle score, where we try to improve the score with
+advanced techniques
+
+    \section{1. Load the dataset and describe
+it}\label{load-the-dataset-and-describe-it}
+
+    We are given two datasets, one called \texttt{train.csv} and the other
+\texttt{test.csv}. The \texttt{train.csv} dataset will be used for
+training, whereas the \texttt{test.csv} to create our final submission
+to Kaggle.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Imports for the project}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{seaborn}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sns}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+
+\PY{n}{random\PYZus{}state} \PY{o}{=} \PY{l+m+mi}{13427895}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train\PYZus{}dataset\PYZus{}raw} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./data/train.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}raw} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./data/test.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+Index: 1460 entries, 1 to 1460
+Data columns (total 80 columns):
+ \#   Column         Non-Null Count  Dtype
+---  ------         --------------  -----
+ 0   MSSubClass     1460 non-null   int64
+ 1   MSZoning       1460 non-null   object
+ 2   LotFrontage    1201 non-null   float64
+ 3   LotArea        1460 non-null   int64
+ 4   Street         1460 non-null   object
+ 5   Alley          91 non-null     object
+ 6   LotShape       1460 non-null   object
+ 7   LandContour    1460 non-null   object
+ 8   Utilities      1460 non-null   object
+ 9   LotConfig      1460 non-null   object
+ 10  LandSlope      1460 non-null   object
+ 11  Neighborhood   1460 non-null   object
+ 12  Condition1     1460 non-null   object
+ 13  Condition2     1460 non-null   object
+ 14  BldgType       1460 non-null   object
+ 15  HouseStyle     1460 non-null   object
+ 16  OverallQual    1460 non-null   int64
+ 17  OverallCond    1460 non-null   int64
+ 18  YearBuilt      1460 non-null   int64
+ 19  YearRemodAdd   1460 non-null   int64
+ 20  RoofStyle      1460 non-null   object
+ 21  RoofMatl       1460 non-null   object
+ 22  Exterior1st    1460 non-null   object
+ 23  Exterior2nd    1460 non-null   object
+ 24  MasVnrType     588 non-null    object
+ 25  MasVnrArea     1452 non-null   float64
+ 26  ExterQual      1460 non-null   object
+ 27  ExterCond      1460 non-null   object
+ 28  Foundation     1460 non-null   object
+ 29  BsmtQual       1423 non-null   object
+ 30  BsmtCond       1423 non-null   object
+ 31  BsmtExposure   1422 non-null   object
+ 32  BsmtFinType1   1423 non-null   object
+ 33  BsmtFinSF1     1460 non-null   int64
+ 34  BsmtFinType2   1422 non-null   object
+ 35  BsmtFinSF2     1460 non-null   int64
+ 36  BsmtUnfSF      1460 non-null   int64
+ 37  TotalBsmtSF    1460 non-null   int64
+ 38  Heating        1460 non-null   object
+ 39  HeatingQC      1460 non-null   object
+ 40  CentralAir     1460 non-null   object
+ 41  Electrical     1459 non-null   object
+ 42  1stFlrSF       1460 non-null   int64
+ 43  2ndFlrSF       1460 non-null   int64
+ 44  LowQualFinSF   1460 non-null   int64
+ 45  GrLivArea      1460 non-null   int64
+ 46  BsmtFullBath   1460 non-null   int64
+ 47  BsmtHalfBath   1460 non-null   int64
+ 48  FullBath       1460 non-null   int64
+ 49  HalfBath       1460 non-null   int64
+ 50  BedroomAbvGr   1460 non-null   int64
+ 51  KitchenAbvGr   1460 non-null   int64
+ 52  KitchenQual    1460 non-null   object
+ 53  TotRmsAbvGrd   1460 non-null   int64
+ 54  Functional     1460 non-null   object
+ 55  Fireplaces     1460 non-null   int64
+ 56  FireplaceQu    770 non-null    object
+ 57  GarageType     1379 non-null   object
+ 58  GarageYrBlt    1379 non-null   float64
+ 59  GarageFinish   1379 non-null   object
+ 60  GarageCars     1460 non-null   int64
+ 61  GarageArea     1460 non-null   int64
+ 62  GarageQual     1379 non-null   object
+ 63  GarageCond     1379 non-null   object
+ 64  PavedDrive     1460 non-null   object
+ 65  WoodDeckSF     1460 non-null   int64
+ 66  OpenPorchSF    1460 non-null   int64
+ 67  EnclosedPorch  1460 non-null   int64
+ 68  3SsnPorch      1460 non-null   int64
+ 69  ScreenPorch    1460 non-null   int64
+ 70  PoolArea       1460 non-null   int64
+ 71  PoolQC         7 non-null      object
+ 72  Fence          281 non-null    object
+ 73  MiscFeature    54 non-null     object
+ 74  MiscVal        1460 non-null   int64
+ 75  MoSold         1460 non-null   int64
+ 76  YrSold         1460 non-null   int64
+ 77  SaleType       1460 non-null   object
+ 78  SaleCondition  1460 non-null   object
+ 79  SalePrice      1460 non-null   int64
+dtypes: float64(3), int64(34), object(43)
+memory usage: 923.9+ KB
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      MSSubClass MSZoning  LotFrontage  LotArea Street Alley LotShape  \textbackslash{}
+Id
+1245          70       RL          NaN    11435   Pave   NaN      IR1
+974           20       FV         95.0    11639   Pave   NaN      Reg
+257           60       FV         64.0     8791   Pave   NaN      IR1
+452           20       RL         62.0    70761   Pave   NaN      IR1
+1412          50       RL         80.0     9600   Pave   NaN      Reg
+958           20       RL         70.0     7420   Pave   NaN      Reg
+671           60       RL         64.0     8633   Pave   NaN      Reg
+1219          50       RM         52.0     6240   Pave   NaN      Reg
+
+     LandContour Utilities LotConfig  {\ldots} PoolArea PoolQC  Fence MiscFeature  \textbackslash{}
+Id                                    {\ldots}
+1245         HLS    AllPub    Corner  {\ldots}        0    NaN    NaN         NaN
+974          Lvl    AllPub    Corner  {\ldots}        0    NaN    NaN         NaN
+257          Lvl    AllPub    Inside  {\ldots}        0    NaN    NaN         NaN
+452          Low    AllPub    Inside  {\ldots}        0    NaN    NaN         NaN
+1412         Lvl    AllPub    Inside  {\ldots}        0    NaN  MnPrv         NaN
+958          Lvl    AllPub    Inside  {\ldots}        0    NaN    NaN         NaN
+671          Lvl    AllPub       FR2  {\ldots}        0    NaN    NaN         NaN
+1219         Lvl    AllPub    Inside  {\ldots}        0    NaN    NaN         NaN
+
+     MiscVal MoSold  YrSold  SaleType  SaleCondition  SalePrice
+Id
+1245       0      6    2006        WD         Normal     230000
+974        0     12    2008       New        Partial     182000
+257        0      5    2008        WD         Normal     207500
+452        0     12    2006        WD         Normal     280000
+1412       0      9    2009        WD         Normal     140000
+958        0      4    2007        WD         Normal     132000
+671        0      2    2009        WD         Normal     173500
+1219       0      7    2006        WD         Normal      80500
+
+[8 rows x 80 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{missing} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{missing}\PY{p}{[}\PY{n}{missing} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LotFrontage      259
+Alley           1369
+MasVnrType       872
+MasVnrArea         8
+BsmtQual          37
+BsmtCond          37
+BsmtExposure      38
+BsmtFinType1      37
+BsmtFinType2      38
+Electrical         1
+FireplaceQu      690
+GarageType        81
+GarageYrBlt       81
+GarageFinish      81
+GarageQual        81
+GarageCond        81
+PoolQC          1453
+Fence           1179
+MiscFeature     1406
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Looking at the output and in accordance with the
+\href{/data/data_description.txt}{data\_description.txt} file we can
+observe that the dataset:
+
+\begin{itemize}
+\tightlist
+\item
+  Contains many features with missing values. Now, should these columns
+  or rows that contain them be dropped? We will have to distinguish
+  whether the missing data actually is actually relevant.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For example, looking at the \textbf{PoolQC} feature, it indicates
+    the PoolQuality. If \textbf{NaN} it indicates that the house does
+    not have a pool, therefore is a useful information that we want to
+    keep
+  \item
+    Whereas, we see that for example \textbf{MasVnrArea} indicates the
+    veneer area in square feet, a \textbf{NaN} value here means that we
+    do not have that information, therefore we could either set it to
+    zero or remove completely.
+  \end{itemize}
+
+  In summary:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    These columns \textbf{Alley, BsmtQual, BsmtCond, BsmtExposure,
+    BsmtFinType1, BsmtFinType2, FireplaceQu, GarageType, GarageFinish,
+    GarageQual, GarageCond, PoolQC, Fence, MiscFeature, MasVnrType} are
+    \emph{absent}, but contain meaningful information
+  \item
+    \textbf{Electrical} column is actually missing (1 row), therefore we
+    will simply remove it from the dataset
+  \item
+    \textbf{LotFrontage} column is missing in 259 rows. In this case we
+    won't delete the rows since it would mean deleting roughly 20\% of
+    the dataset. Therefore, we will set the missing values to the median
+    of the rows with values
+  \end{enumerate}
+\item
+  Contains many categorical features, which we will likely need to
+  encode.
+\end{itemize}
+
+    \subsection{1.1 Target Variable}\label{target-variable}
+
+    The target variable `y' in the dataset is \textbf{SalePrice}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{target\PYZus{}column} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SalePrice}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+count      1460.000000
+mean     180921.195890
+std       79442.502883
+min       34900.000000
+25\%      129975.000000
+50\%      163000.000000
+75\%      214000.000000
+max      755000.000000
+Name: SalePrice, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We observe that the \textbf{mean} (180921) is higher than the
+\textbf{median} (50\% - 163000), which could mean that there are some
+houses that are driving the price up (max 755000) which could indicate
+that the data is skewed towards the right. To confirm this, let's plot
+the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of }\PY{l+s+si}{\PYZob{}}\PY{n}{target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{n}{target\PYZus{}column}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_13_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    And indeed we observe that the data is right-skewed. We will need to
+appy a transformation to make it less ``unbalanced''.
+
+    \subsection{1.2 Correlation}\label{correlation}
+
+    Let's go on and see the how the different columns contribute to the
+\textbf{SalePrice} target column by using correlation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{corr\PYZus{}matrix} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{numeric\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{saleprice\PYZus{}correlations} \PY{o}{=} \PY{n}{corr\PYZus{}matrix}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{saleprice\PYZus{}correlations}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{saleprice\PYZus{}correlations}\PY{o}{.}\PY{n}{index}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Correlation of features for }\PY{l+s+si}{\PYZob{}}\PY{n}{target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Based on this visualization we can see that some features heavily
+(\textgreater{} .6) contribute to the \textbf{SalePrice} target
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{saleprice\PYZus{}correlations}\PY{p}{[}\PY{n}{saleprice\PYZus{}correlations} \PY{o}{\PYZgt{}} \PY{l+m+mf}{.6}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+SalePrice      1.000000
+OverallQual    0.790982
+GrLivArea      0.708624
+GarageCars     0.640409
+GarageArea     0.623431
+TotalBsmtSF    0.613581
+1stFlrSF       0.605852
+Name: SalePrice, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Knowing this, let's see if these highly-correlated features have
+outliers using scatter plots.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{highly\PYZus{}correlated} \PY{o}{=} \PY{n}{saleprice\PYZus{}correlations}\PY{p}{[}\PY{n}{saleprice\PYZus{}correlations} \PY{o}{\PYZgt{}} \PY{l+m+mf}{.6}\PY{p}{]}
+\PY{n}{highly\PYZus{}correlated} \PY{o}{=} \PY{n}{highly\PYZus{}correlated}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]} \PY{c+c1}{\PYZsh{} remove the target column}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{feature}\PY{p}{,} \PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{highly\PYZus{}correlated}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+    
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Outliers: }\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ vs }\PY{l+s+si}{\PYZob{}}\PY{n}{target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Looking at this we see some outliers for: - \textbf{GrLivArea} where two
+houses with a \textgreater{} 4500ft sq. are are sold at \textless{}
+200000 dollars. We will remove this as it doesn't make much sense if we
+think at the context we are working in. A house that big should cost way
+more money, but here it is sold very cheap. - \textbf{GarageArea} where
+houses with a \textgreater{} 1200ft sq. are sold at \textless{} 300000
+dollars. This is more nuanced as it's plausible that a real house might
+have an enormous garage or workshop. We will leave this outsider to be
+conservative and later see if it was the right decision. -
+\textbf{TotalBSmtSF} \& \textbf{1stFlrSF} with a really out-of-charts
+outliers, most certainly an error in the data.
+
+    \section{2. Data Cleaning}\label{data-cleaning}
+
+    RECAP: In the previous phase, we identified several items that we need
+to address: - \textbf{Missing Data}, We found numerous columns with
+missing values and determined that some \texttt{NaN}s represent a
+meaningful absence of a feature (e.g., no pool), while others are truly
+missing data points. - \textbf{Outliers}, We identified a few
+significant outliers, particularly two data points with very large
+\textbf{GrLivArea} but unusually low \textbf{SalePrice}, which could
+negatively impact model performance. - \textbf{Target Variable
+Skewness}, Our target variable, \textbf{SalePrice}, is heavily
+right-skewed and will need to be transformed to be more suitable for
+linear models.
+
+In this section, we will execute a cleaning plan based on these
+findings. The process will be as follows: 1. First, we will handle all
+missing data by either \textbf{imputing} values or \textbf{dropping}
+rows. 2. Second, we will \textbf{remove} the identified outliers from
+the dataset. 3. Third, we will apply a log transformation to the
+\textbf{SalePrice} column to normalize its distribution. 4. Finally,
+once the data is clean, we will perform \textbf{feature encoding} to
+convert categorical columns into a numerical format that machine
+learning models can process.
+
+    \subsubsection{2.1 Filling ``missing'' data and
+filling}\label{filling-missing-data-and-filling}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{target\PYZus{}column} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SalePrice}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned} \PY{o}{=} \PY{n}{test\PYZus{}dataset\PYZus{}raw}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{features\PYZus{}to\PYZus{}fill\PYZus{}none} \PY{o}{=} \PY{p}{[}
+     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Alley}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtCond}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtExposure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtFinType1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtFinType2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FireplaceQu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageFinish}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageCond}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PoolQC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MiscFeature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MasVnrType}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} fill categorical missing with \PYZdq{}None\PYZdq{} string}
+
+\PY{k}{for} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{features\PYZus{}to\PYZus{}fill\PYZus{}none}\PY{p}{:}
+    \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} fill numerical missing with 0}
+\PY{n}{features\PYZus{}to\PYZus{}fill\PYZus{}zero} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageYrBlt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MasVnrArea}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{features\PYZus{}to\PYZus{}fill\PYZus{}zero}\PY{p}{:}
+    \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} fill any remaining NaNs in LotFrontage (e.g., if a neighborhood in test set was not present in the training set,}
+\PY{c+c1}{\PYZsh{} or if a neighborhood had all NaNs) with the global median from the training set.}
+\PY{n}{lot\PYZus{}frontage\PYZus{}median} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LotFrontage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LotFrontage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LotFrontage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{lot\PYZus{}frontage\PYZus{}median}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LotFrontage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LotFrontage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{lot\PYZus{}frontage\PYZus{}median}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} drop the row with missing \PYZdq{}Electrical\PYZdq{} feature}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Electrical}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rows with NaN values after cleaning: }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Rows with NaN values after cleaning: 0
+    \end{Verbatim}
+
+    \subsubsection{2.2 Outliers}\label{outliers}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Before removal of outliers }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GrLivArea}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{4000}\PY{p}{]}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalBsmtSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{6000}\PY{p}{]}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1stFlrSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{4000}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{After removal of outliers }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Before removal of outliers 1459
+After removal of outliers 1455
+    \end{Verbatim}
+
+    \subsubsection{2.3 Adjusting skewness}\label{adjusting-skewness}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZsh{} Point 3}
+
+\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}log}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log1p}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot original SalePrice distribution on the first subplot}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original }\PY{l+s+si}{\PYZob{}}\PY{n}{target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ Distribution}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot log\PYZhy{}transformed SalePrice distribution on the second subplot}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Log\PYZhy{}Transformed }\PY{l+s+si}{\PYZob{}}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ Distribution}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    To encode the features, we have to be aware of the different types that
+are present in the dataset. We have two types (1) \textbf{Ordinal} and
+(2) \textbf{Nominal} features.
+
+\textbf{Ordinal} features have an intrinsic order. For example we
+observe that many features in the dataset refer to ``Quality of X'',
+like ``ExterQual'', ``BsmtQual'', etc that is ordered from (NA - No X,
+Po - Poor quality, Fa - Fair quality, TA - typical quality, Gd - good
+quality and Ex - excellent quality. We will map these values to a 0-5
+and encode them using \textbf{Ordinal Encoding}.
+
+\textbf{Nominal} features are categories to which the feature is
+assigned to. For example the \textbf{Neighborhood}, which represents the
+physical location of the house in the city, can assume different values
+dependending, of course, by the neighboorhood the house is in.
+
+    \subsubsection{2.4 Encoding}\label{encoding}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZsh{} Point 4 \PYZhy{} Ordinal}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{OrdinalEncoder}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Define categories and columns \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{qual\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ExterQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ExterCond}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtCond}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HeatingQC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KitchenQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FireplaceQu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageCond}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{qual\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{None}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Po}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{bsmt\PYZus{}fin\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtFinType1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtFinType2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{bsmt\PYZus{}fin\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{None}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LwQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Rec}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BLQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ALQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GLQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{bsmt\PYZus{}exp\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtExposure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{bsmt\PYZus{}exp\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{None}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Av}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{garage\PYZus{}fin\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GarageFinish}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{garage\PYZus{}fin\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{None}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RFn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{paved\PYZus{}drive\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PavedDrive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{paved\PYZus{}drive\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{N}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{land\PYZus{}slope\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LandSlope}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{land\PYZus{}slope\PYZus{}cats} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mod}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gtl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Initialize all encoders \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{qual\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{qual\PYZus{}cats}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{qual\PYZus{}cols}\PY{p}{)}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{bsmt\PYZus{}fin\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{bsmt\PYZus{}fin\PYZus{}cats}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{bsmt\PYZus{}fin\PYZus{}cols}\PY{p}{)}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{bsmt\PYZus{}exp\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{bsmt\PYZus{}exp\PYZus{}cats}\PY{p}{]}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{garage\PYZus{}fin\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{garage\PYZus{}fin\PYZus{}cats}\PY{p}{]}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{paved\PYZus{}drive\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{paved\PYZus{}drive\PYZus{}cats}\PY{p}{]}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{land\PYZus{}slope\PYZus{}encoder} \PY{o}{=} \PY{n}{OrdinalEncoder}\PY{p}{(}\PY{n}{categories}\PY{o}{=}\PY{p}{[}\PY{n}{land\PYZus{}slope\PYZus{}cats}\PY{p}{]}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{use\PYZus{}encoded\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unknown\PYZus{}value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Fit and Transform the Training Data \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Note: We fill NaNs with a default value just before fitting/transforming}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{qual\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{qual\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{qual\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}fin\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{bsmt\PYZus{}fin\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}fin\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}exp\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{bsmt\PYZus{}exp\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}exp\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{garage\PYZus{}fin\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{garage\PYZus{}fin\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{garage\PYZus{}fin\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{paved\PYZus{}drive\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{paved\PYZus{}drive\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{paved\PYZus{}drive\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{land\PYZus{}slope\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{land\PYZus{}slope\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{land\PYZus{}slope\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Transform the Test Data (filling NaNs with the same strategy) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{qual\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{qual\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{qual\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}fin\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{bsmt\PYZus{}fin\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}fin\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}exp\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{bsmt\PYZus{}exp\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{bsmt\PYZus{}exp\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{garage\PYZus{}fin\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{garage\PYZus{}fin\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{garage\PYZus{}fin\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{paved\PYZus{}drive\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{paved\PYZus{}drive\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{paved\PYZus{}drive\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{land\PYZus{}slope\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{land\PYZus{}slope\PYZus{}encoder}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{p}{[}\PY{n}{land\PYZus{}slope\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      MSSubClass MSZoning  LotFrontage  LotArea Street Alley LotShape  \textbackslash{}
+Id
+1243          85       RL         85.0    10625   Pave  None      Reg
+1186          50       RL         60.0     9738   Pave  None      Reg
+1258          30       RL         56.0     4060   Pave  None      Reg
+1254          60       RL         69.0    17542   Pave  None      IR1
+1221          20       RL         66.0     7800   Pave  None      IR1
+1320          20       RL         75.0    10215   Pave  None      Reg
+172           20       RL        141.0    31770   Pave  None      IR1
+958           20       RL         70.0     7420   Pave  None      Reg
+
+     LandContour Utilities LotConfig  {\ldots}  PoolQC  Fence MiscFeature MiscVal  \textbackslash{}
+Id                                    {\ldots}
+1243         Lvl    AllPub    Inside  {\ldots}    None  MnPrv        None       0
+1186         Lvl    AllPub    Inside  {\ldots}    None   None        None       0
+1258         Lvl    AllPub    Corner  {\ldots}    None   None        None       0
+1254         Lvl    AllPub    Inside  {\ldots}    None  MnPrv        None       0
+1221         Lvl    AllPub    Inside  {\ldots}    None   None        None       0
+1320         Bnk    AllPub    Inside  {\ldots}    None   None        None       0
+172          Lvl    AllPub    Corner  {\ldots}    None   None        None       0
+958          Lvl    AllPub    Inside  {\ldots}    None   None        None       0
+
+     MoSold YrSold  SaleType  SaleCondition  SalePrice  SalePrice\_log
+Id
+1243      1   2010        WD         Family     170000      12.043560
+1186      3   2006        WD         Normal     104900      11.560772
+1258      7   2009        WD         Normal      99900      11.511935
+1254      7   2007        WD         Normal     294000      12.591338
+1221     11   2006        WD        Abnorml     115000      11.652696
+1320      2   2007        WD         Normal     111000      11.617294
+172       5   2010        WD         Normal     215000      12.278398
+958       4   2007        WD         Normal     132000      11.790565
+
+[8 rows x 81 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZsh{} Point 4 \PYZhy{} Nominal}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{OneHotEncoder}
+
+\PY{n}{df\PYZus{}final} \PY{o}{=} \PY{n}{train\PYZus{}dataset\PYZus{}cleaned}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{df\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{test\PYZus{}dataset\PYZus{}cleaned}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df\PYZus{}final}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSSubClass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSSubClass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+\PY{n}{df\PYZus{}test\PYZus{}final}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSSubClass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSSubClass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+
+\PY{n}{nominal\PYZus{}cols} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{ohe} \PY{o}{=} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sparse\PYZus{}output}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{handle\PYZus{}unknown}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Fit on the training data and transform it}
+\PY{n}{encoded\PYZus{}train} \PY{o}{=} \PY{n}{ohe}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{df\PYZus{}final}\PY{p}{[}\PY{n}{nominal\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{encoded\PYZus{}df\PYZus{}train} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{encoded\PYZus{}train}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{ohe}\PY{o}{.}\PY{n}{get\PYZus{}feature\PYZus{}names\PYZus{}out}\PY{p}{(}\PY{n}{nominal\PYZus{}cols}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ONLY transform the test data}
+\PY{n}{encoded\PYZus{}test} \PY{o}{=} \PY{n}{ohe}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{p}{[}\PY{n}{nominal\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+\PY{n}{encoded\PYZus{}df\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{encoded\PYZus{}test}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{ohe}\PY{o}{.}\PY{n}{get\PYZus{}feature\PYZus{}names\PYZus{}out}\PY{p}{(}\PY{n}{nominal\PYZus{}cols}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Drop, concat, and align}
+\PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{nominal\PYZus{}cols}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{nominal\PYZus{}cols}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df\PYZus{}final} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}final}\PY{p}{,} \PY{n}{encoded\PYZus{}df\PYZus{}train}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{df\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{p}{,} \PY{n}{encoded\PYZus{}df\PYZus{}test}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} also process the missing values on the test dataset after encoding the features}
+\PY{n}{test\PYZus{}nan\PYZus{}cols} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{test\PYZus{}nan\PYZus{}cols}\PY{p}{:}
+    \PY{n}{median\PYZus{}value} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+    \PY{n}{df\PYZus{}test\PYZus{}final}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{median\PYZus{}value}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filled NaNs in }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ with training data median for test dataset: }\PY{l+s+si}{\PYZob{}}\PY{n}{median\PYZus{}value}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Filled NaNs in 'BsmtFinSF1' with training data median for test dataset: 381.0
+Filled NaNs in 'BsmtFinSF2' with training data median for test dataset: 0.0
+Filled NaNs in 'BsmtUnfSF' with training data median for test dataset: 479.0
+Filled NaNs in 'TotalBsmtSF' with training data median for test dataset: 991.0
+Filled NaNs in 'BsmtFullBath' with training data median for test dataset: 0.0
+Filled NaNs in 'BsmtHalfBath' with training data median for test dataset: 0.0
+Filled NaNs in 'GarageCars' with training data median for test dataset: 2.0
+Filled NaNs in 'GarageArea' with training data median for test dataset: 479.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/Users/ilcors-dev/src/unibo/corsetti-
+house\_prices\_advanced\_regression\_techniques/.venv/lib/python3.13/site-
+packages/sklearn/preprocessing/\_encoders.py:246: UserWarning: Found unknown
+categories in columns [0, 1, 6, 15, 16, 22, 27] during transform. These unknown
+categories will be encoded as all zeros
+  warnings.warn(
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      LotFrontage  LotArea  LandSlope  OverallQual  OverallCond  YearBuilt  \textbackslash{}
+Id
+1243         85.0    10625        2.0            7            6       1974
+1186         60.0     9738        2.0            5            7       1924
+1258         56.0     4060        2.0            5            8       1922
+1254         69.0    17542        2.0            7            7       1974
+1221         66.0     7800        2.0            5            5       1964
+1320         75.0    10215        2.0            4            5       1954
+172         141.0    31770        2.0            6            5       1960
+958          70.0     7420        2.0            5            5       1962
+
+      YearRemodAdd  MasVnrArea  ExterQual  ExterCond  {\ldots}  SaleType\_ConLI  \textbackslash{}
+Id                                                    {\ldots}
+1243          1974        81.0        3.0        3.0  {\ldots}             0.0
+1186          1950         0.0        3.0        4.0  {\ldots}             0.0
+1258          1950         0.0        3.0        3.0  {\ldots}             0.0
+1254          2003         0.0        4.0        3.0  {\ldots}             0.0
+1221          1964         0.0        3.0        3.0  {\ldots}             0.0
+1320          1954       132.0        3.0        3.0  {\ldots}             0.0
+172           1960       112.0        3.0        3.0  {\ldots}             0.0
+958           1962         0.0        3.0        3.0  {\ldots}             0.0
+
+      SaleType\_ConLw  SaleType\_New  SaleType\_Oth  SaleType\_WD  \textbackslash{}
+Id
+1243             0.0           0.0           0.0          1.0
+1186             0.0           0.0           0.0          1.0
+1258             0.0           0.0           0.0          1.0
+1254             0.0           0.0           0.0          1.0
+1221             0.0           0.0           0.0          1.0
+1320             0.0           0.0           0.0          1.0
+172              0.0           0.0           0.0          1.0
+958              0.0           0.0           0.0          1.0
+
+      SaleCondition\_AdjLand  SaleCondition\_Alloca  SaleCondition\_Family  \textbackslash{}
+Id
+1243                    0.0                   0.0                   1.0
+1186                    0.0                   0.0                   0.0
+1258                    0.0                   0.0                   0.0
+1254                    0.0                   0.0                   0.0
+1221                    0.0                   0.0                   0.0
+1320                    0.0                   0.0                   0.0
+172                     0.0                   0.0                   0.0
+958                     0.0                   0.0                   0.0
+
+      SaleCondition\_Normal  SaleCondition\_Partial
+Id
+1243                   0.0                    0.0
+1186                   1.0                    0.0
+1258                   1.0                    0.0
+1254                   1.0                    0.0
+1221                   0.0                    0.0
+1320                   1.0                    0.0
+172                    1.0                    0.0
+958                    1.0                    0.0
+
+[8 rows x 228 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \section{3. Train \& Evaluate}\label{train-evaluate}
+
+    Now that we have a clean dataset, we can train some models and evaluate
+them using \textbf{Root Mean Squared Error (RMSE)}, \textbf{R-squared}.
+
+Going step by step, here's how we are going to split the work: 1.
+\textbf{Prepare Data for Modeling}: We will separate our data into a
+feature matrix (X) and a target vector (y). We will then split these
+into a training set (for teaching the models) and a validation set (for
+evaluating their performance on unseen data).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \textbf{Establish a Baseline Model}: We'll start by training a simple
+  and interpretable \textbf{Ridge Regression} model. This will give us a
+  baseline performance score that we can strive to improve upon.
+\item
+  \textbf{Train Advanced Models}: We will then train two more powerful
+  models: a \textbf{Random Forest Regressor} and an \textbf{XGBoost
+  Regressor}.
+\item
+  \textbf{Evaluate and Compare Models}: Finally, we will compare the
+  performance of all three models using \textbf{Root Mean Squared Error
+  (RMSE)} and \textbf{R-squared} on the validation set. This will help
+  us determine which model is the most accurate and best suited for this
+  challenge.
+\end{enumerate}
+
+Why do we use \textbf{RMSE} and \textbf{R-squared}?
+
+\textbf{RMSE}, tells us the distance between the model's predictions and
+the actual values. \[\mathrm{error}=\mathrm{actual}-\mathrm{predicted}\]
+\[\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}-\mathrm{predicted})^2\]
+\[\mathrm{RMSE}=\sqrt{\mathrm{MSE}}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}-\mathrm{predicted})^2}\]
+In our case, it tells how much of, on average, our prediction is off by
+log-dollars. For example, if we get a \textbf{RMSE} of \(0.13\), it
+means that on average our model prediction is off by \(0.13\) log scaled
+dollars.
+
+\textbf{The lower the better} because we want to minimize our prediction
+error.
+
+\textbf{R-squared}, tells us how good our model fits the data by
+measuring the proportion of the variance in the target variable that
+gets explained by our model. It does so by comparing our model's
+performance to a baseline model that just predicts the mean value of the
+target for every observation.
+\[\mathrm{SS}_{\mathrm{res}}(\mathrm{Sum\ of\ squared\ residuals})=\sum{i=1}^{n}(\mathrm{actual}-\mathrm{prediction})^2\]
+\[\mathrm{SS}_{\mathrm{tot}}(\mathrm{Total\ sum\ of\ squares})=\sum{i=1}^{n}(\mathrm{actual}-\mathrm{mean})^2\]
+\[R^2=1-\frac{\mathrm{SS}_{\mathrm{res}}}{\mathrm{SS}_{\mathrm{tot}}}\]
+
+where: -
+\(\mathrm{SS}_{\mathrm{res}}(\mathrm{Sum\ of\ squared\ residuals})\)
+represents the errors of our model -
+\(\mathrm{SS}_{\mathrm{tot}}(\mathrm{Total\ sum\ of\ squares})\)
+represents the errors of the \emph{mean-only} model (the baseline)
+
+In our case, it tells us \textbf{how well} our model accounts for the
+variation in the data. For example, if we get a \textbf{R-squared} of
+\(0.86\), it means that our model can explain \(86\%\) of the variation
+of the house prices.
+
+\textbf{The higher the better} because it means that our model can
+explain the complexity of the data well.
+
+    \subsection{3.1 Data preparation}\label{data-preparation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+
+\PY{n}{X} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Shape of the original unsplitted dataset }\PY{l+s+si}{\PYZob{}}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Shape of the splitted train dataset }\PY{l+s+si}{\PYZob{}}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Shape of the splitted test dataset }\PY{l+s+si}{\PYZob{}}\PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Shape of the original unsplitted dataset (1455, 226)
+Shape of the splitted train dataset (1164, 226)
+Shape of the splitted test dataset (291, 226)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{,} \PY{n}{r2\PYZus{}score}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{cross\PYZus{}val\PYZus{}score}
+
+\PY{n}{models} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}
+\PY{p}{\PYZcb{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models\PYZus{}to\PYZus{}evaluate}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Creates a dictionary to compare the trained models.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{    models\PYZus{}to\PYZus{}evaluate (dict): A dictionary where keys are model names}
+\PY{l+s+sd}{                                and values are instantiated model objects.}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        pd.DataFrame: A DataFrame with the RMSE and R2 scores for each model.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{cv\PYZus{}results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{model\PYZus{}dict} \PY{o+ow}{in} \PY{n}{models\PYZus{}to\PYZus{}evaluate}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{model\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o+ow}{or} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{model\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+            \PY{k}{continue}
+        
+        \PY{n}{cv\PYZus{}results}\PY{p}{[}\PY{n}{name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{model\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{model\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        \PY{p}{\PYZcb{}}
+
+    \PY{n}{results\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{o}{.}\PY{n}{from\PYZus{}dict}\PY{p}{(}\PY{n}{cv\PYZus{}results}\PY{p}{,} \PY{n}{orient}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}\PY{p}{)}
+
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+      
+    \PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{viridis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model RMSE Comparison (lower is best)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RMSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    
+    \PY{n}{min\PYZus{}rmse} \PY{o}{=} \PY{n}{results\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+    \PY{n}{max\PYZus{}rmse} \PY{o}{=} \PY{n}{results\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{min\PYZus{}rmse} \PY{o}{*} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{n}{max\PYZus{}rmse} \PY{o}{*} \PY{l+m+mf}{1.05}\PY{p}{)}
+      
+    \PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{viridis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{n}{results\PYZus{}df}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model R2 Score Comparison (higher is best)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R2 Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    
+    \PY{n}{min\PYZus{}r2} \PY{o}{=} \PY{n}{results\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+    \PY{n}{max\PYZus{}r2} \PY{o}{=} \PY{n}{results\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{min\PYZus{}r2} \PY{o}{*} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{n+nb}{max}\PY{p}{(}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{max\PYZus{}r2} \PY{o}{*} \PY{l+m+mf}{1.05}\PY{p}{)}\PY{p}{)}
+      
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{results\PYZus{}df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{3.2 Training a Baseline
+model}\label{training-a-baseline-model}
+
+    Let's now go on training the \textbf{Rigde Regression} model. Why? We
+want to come to an acceptable solution by starting with a simple model
+and building upon it to improve the predictions. There are a bunch of
+models that are deemed \emph{simple} like the \textbf{Linear Regressor}
+or the \textbf{Ridge Regressor}.
+
+The \textbf{Linear Regressor} goal is to minimize the ``sum of squared
+errors'' (SSE), that is having a cost function associated of this form
+
+\[\min(\sum{(\mathrm{actual\_target} - \mathrm{predicted\_target})^2)}\]
+
+In other words the model tries to find the specific slope (coefficient)
+for each feature that makes this total sum as little as possible. Since
+our dataset has many features columns, the \textbf{Linear Regressor}
+does not perform well because in case of highly correlated features the
+model may decide to give more weight to one feature (assigning a large
+coefficient) while assigning a negative weight to a similar correlated
+feature (exploding coefficients). In the end this could lead to an
+unstable model which may perform really well on the train data but
+poorly on new unseen data (overfitting).
+
+On the other hand, the goal of \textbf{Ridge Regressor} is the same as
+the \textbf{Linear Regressor} but it assigns a penalty to the
+coefficients that are assigned to be too large by adding a
+\textbf{regularization term} to the cost function. This term represents
+the sum of the squares of all the feature coefficients multiplied by an
+alpha (\(\alpha\)) value.
+
+\[\min(\sum\mathrm{actual\_target} - \mathrm{predicted\_target}^2 + \alpha\cdot\sum{\mathrm{all\_feature\_coefficients}^2})\]
+
+With this, the model still aims to fit the training data well, but it is
+also incentivized to keep the coefficients small to minimize the penalty
+that would be assigned. The \(\alpha\) is an hyperparameter that is set
+by us: - if \(\alpha = 0\): the \textbf{Ridge Regressor} acts like a
+standard \textbf{Linear Regressor} - if \(\alpha\) is very large: the
+penalty is severe, meaning that the model will keep the coefficients
+really small to avoid the penalty, which leads to fitting the training
+data a bit worse (underfitting)
+
+We therefore want to set an \(\alpha\) that is something in between to
+avoid overfitting (exploding coefficients) and underfitting (making
+coefficients really small)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Ridge}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{Ridge}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Ridge Regression Baseline \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RMSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{R\PYZhy{}squared: }\PY{l+s+si}{\PYZob{}}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Ridge Regression Baseline ---
+RMSE: 0.1137
+R-squared: 0.9178
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)} \PY{c+c1}{\PYZsh{} Perfect prediction line}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Actual SalePrice (log\PYZhy{}transformed)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted SalePrice (log\PYZhy{}transformed)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ridge Model: Predictions vs. Actual Values}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_45_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{y\PYZus{}test} \PY{o}{\PYZhy{}} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of residuals for Ridge Model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Residual error (error: actual \PYZhy{} predicted)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_46_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Our initial baseline model, was trained to establish a performance
+benchmark. The model performed well, achieving an R-squared value of
+\textbf{0.9178}. This indicates that our model can explain approximately
+91.8\% of the variance in the log-transformed sale prices, which points
+to a very strong fit.
+
+The RMSE was \textbf{0.1137}. This means that on the log-transformed
+scale, our model's predictions are, on average, off by about
+\textbf{0.11} log-scaled dollars.
+
+    \subsubsection{3.2.1 Finetuning}\label{finetuning}
+
+    Since we need to set the hyperparameter \(\alpha\), it's a good idea to
+finetune the model with \textbf{GridSearchCV} to find the best one.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{GridSearchCV}
+
+\PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{logspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{)} \PY{c+c1}{\PYZsh{} generates a list of values from .01 to 1000}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{ridge\PYZus{}grid\PYZus{}search} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}
+    \PY{n}{estimator}\PY{o}{=}\PY{n}{Ridge}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+    \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{n}{param\PYZus{}grid}\PY{p}{,}
+    \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+    \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}} \PY{c+c1}{\PYZsh{} take the negative of mse since GridSearchCV works by taking the best the highest value out of the estimation}
+\PY{p}{)}
+
+\PY{n}{ridge\PYZus{}grid\PYZus{}search}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{ridge\PYZus{}grid\PYZus{}search}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Best alpha hyperparameter found }\PY{l+s+si}{\PYZob{}}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{alpha}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RMSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{R\PYZhy{}squared: }\PY{l+s+si}{\PYZob{}}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Best alpha hyperparameter found 26.366508987303583
+RMSE: 0.1127
+R-squared: 0.9192
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)} \PY{c+c1}{\PYZsh{} Perfect prediction line}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Actual SalePrice (log\PYZhy{}transformed)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted SalePrice (log\PYZhy{}transformed)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ridge Best Model: Predictions vs. Actual Values}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{y\PYZus{}test} \PY{o}{\PYZhy{}} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of residuals for Ridge Best Model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Residual error (error: actual \PYZhy{} predicted)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_52_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We found a slightly better model with \(\alpha=26.366508987303583\), a
+slightly lower RMSE and higher R-squared.
+
+    \subsection{4. Advanced Models}\label{advanced-models}
+
+    Our tuned \textbf{Ridge Regression} model provided a strong linear
+baseline, but the relationships between the features and the sale price
+are likely more complex and non-linear. To capture these intricate
+patterns and potentially improve our predictive accuracy, we will now
+explore two powerful ensemble models: \textbf{Random Forest} and
+\textbf{XGBoost}.
+
+\begin{itemize}
+\item
+  \textbf{Random Forest Regressor}: This model operates by building a
+  multitude of decision trees and averaging their predictions. This
+  approach makes it robust, less prone to overfitting than a single
+  tree, and excellent at modeling complex interactions.
+\item
+  \textbf{XGBoost Regressor}: This is a leading implementation of
+  gradient boosting, an algorithm that builds models sequentially, with
+  each new model correcting the errors of its predecessor.
+\end{itemize}
+
+By training and evaluating these models, we can determine if a more
+complex, non-linear approach yields a significant improvement over our
+initial Ridge baseline.
+
+    \subsubsection{4.1 Random Forest}\label{random-forest}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{RandomForestRegressor}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                   rmse        r2
+ridge\_best     0.112727  0.919156
+ridge          0.113688  0.917771
+random\_forest  0.137517  0.879688
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{estimator}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+DecisionTreeRegressor()
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{plot\PYZus{}tree}
+
+\PY{n}{tree} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{estimators\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{plot\PYZus{}tree}\PY{p}{(}\PY{n}{tree}\PY{p}{,}
+          \PY{n}{feature\PYZus{}names}\PY{o}{=}\PY{n}{X}\PY{o}{.}\PY{n}{columns}\PY{p}{,}
+          \PY{n}{filled}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+          \PY{n}{rounded}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+          \PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+          \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Visualization of a Single (Untuned) Decision Tree \PYZhy{} Simplified to max\PYZus{}depth=3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_60_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    As we can see, our tuned \textbf{Ridge Regressor} performs better than
+this newly trained model. It's expected since we have not yet looked for
+the optimal parameters for this regressor.
+
+    \paragraph{4.1.1 Finetuning}\label{finetuning}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{RandomizedSearchCV}
+
+\PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{k+kc}{None}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}samples\PYZus{}split}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}samples\PYZus{}leaf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sqrt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{rf\PYZus{}random\PYZus{}search} \PY{o}{=} \PY{n}{RandomizedSearchCV}\PY{p}{(}
+    \PY{n}{estimator}\PY{o}{=}\PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+    \PY{n}{param\PYZus{}distributions}\PY{o}{=}\PY{n}{param\PYZus{}grid}\PY{p}{,}
+    \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+    \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}
+\PY{p}{)}
+
+\PY{n}{rf\PYZus{}random\PYZus{}search}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{rf\PYZus{}random\PYZus{}search}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_64_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                        rmse        r2
+ridge\_best          0.112727  0.919156
+ridge               0.113688  0.917771
+random\_forest\_best  0.135646  0.882939
+random\_forest       0.137517  0.879688
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can conclude that our tuned Ridge model is a very strong and
+effective baseline. Any more complex model must prove that it is
+significantly better to justify its added complexity. Our tuned
+\textbf{Random Forest} failed to do this. Also, maybe the different
+features of the dataset are more linear than we thought they would be!
+
+    \subsubsection{4.2 XGBoost}\label{xgboost}
+
+    Let's try to train another model, \textbf{XGBoost} (eXtreme Gradient
+Boosting). This tree-based model works by building multiple models, each
+new one improving the last one. In other words (1) it starts with a
+simple model which will predict quite poorly, (2) the algorithm
+calculates the ``how wrong'' the prediction was for each house
+
+\[\mathrm{Error}=\mathrm{actual\_value} - \mathrm{predicted\_value},\]
+\[> 0, \mathrm{if\ prediction\ is\ lower\ than\ actual}\]
+\[< 0, \mathrm{if\ prediction\ is\ greater\ than\ actual}\]
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  train a new model not to predict the target variable, but to predict
+  the calculated error (basically trying to fix the previous model
+  errors), (4) add this new model prediction to the previous one, using
+  an hyperparameter called \(\mathrm{learning\_rate}\) which is used to
+  tell the model ``how much the correction should be trusted''. For
+  example, a value of \(1.0\), will tell the model that the correction
+  made by this new model is 100\% trust-worthy, which can improve
+  training speed but could make the model learn noise instead of actual
+  patterns.
+\end{enumerate}
+
+\[\mathrm{new\_prediction}=\mathrm{old\_prediction} + (\mathrm{learning\_rate}\cdot\mathrm{error\_tree\_prediction})\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{xgboost}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{xgb}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+XGBRegressor(base\_score=None, booster=None, callbacks=None,
+             colsample\_bylevel=None, colsample\_bynode=None,
+             colsample\_bytree=None, device=None, early\_stopping\_rounds=None,
+             enable\_categorical=False, eval\_metric=None, feature\_types=None,
+             feature\_weights=None, gamma=None, grow\_policy=None,
+             importance\_type=None, interaction\_constraints=None,
+             learning\_rate=None, max\_bin=None, max\_cat\_threshold=None,
+             max\_cat\_to\_onehot=None, max\_delta\_step=None, max\_depth=None,
+             max\_leaves=None, min\_child\_weight=None, missing=nan,
+             monotone\_constraints=None, multi\_strategy=None, n\_estimators=None,
+             n\_jobs=None, num\_parallel\_tree=None, {\ldots})
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_69_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                        rmse        r2
+ridge\_best          0.112727  0.919156
+ridge               0.113688  0.917771
+random\_forest\_best  0.135646  0.882939
+random\_forest       0.137517  0.879688
+xgboost             0.144381  0.867377
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{4.2.1 Finetuning}\label{finetuning}
+
+    The \textbf{Tuned Ridge} regressor is still the best performing model
+here. Let's see if we can optimize the \textbf{XGBoost} model
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{xgb\PYZus{}grid\PYZus{}search} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}
+    \PY{n}{estimator}\PY{o}{=}\PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+    \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{n}{param\PYZus{}grid}\PY{p}{,}
+    \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+    \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+\PY{p}{)}
+
+\PY{n}{xgb\PYZus{}grid\PYZus{}search}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{xgb\PYZus{}grid\PYZus{}search}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_73_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                        rmse        r2
+xgboost\_best        0.111714  0.920602
+ridge\_best          0.112727  0.919156
+ridge               0.113688  0.917771
+random\_forest\_best  0.135646  0.882939
+random\_forest       0.137517  0.879688
+xgboost             0.144381  0.867377
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The tuned \textbf{XGBoost} model achieved the best \textbf{RMSE} and
+\textbf{R-squared}.
+
+    \section{4. Results}\label{results}
+
+    In conclusion, we successfully executed all the steps we planned: 1.
+\textbf{Data Exploration}, where we took a look at the given dataset,
+discovering the correlation between features, discovering possible
+outliers and analysing the type of data. 2. \textbf{Data Cleaning},
+where we applied our findings from point (1) to remove outliers, impute
+missing values, remove skewness of the target variable, convert
+categorical features with ordinal and one-hot encoding. 3.
+\textbf{Training and evaluation}, where we trained different models with
+different regressors, looking each time for the best parameters
+combination of each using GridSearchCV. In the end we found the best
+model to be XGBoost.
+
+    \subsection{4.1 Final Step: Submission}\label{final-step-submission}
+
+What's left now is to get the best model we found, retrain it on the
+whole \textbf{train.csv} dataset and create a \textbf{submission.csv}
+dataset by inverting the log-based predictions back into the real unit
+in dollars and see how well we scored.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{select\PYZus{}best\PYZus{}model}\PY{p}{(}\PY{n}{models\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Selects and prints the best model from the dictionary of saved models getting the one with lower rmse and higher r2.}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        models\PYZus{}dict (dict): A dictionary containing the trained models and their metrics.}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        The best performing model object.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{comparison} \PY{o}{=} \PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models\PYZus{}dict}\PY{p}{)}
+    
+    \PY{n}{best\PYZus{}model\PYZus{}name} \PY{o}{=} \PY{n}{comparison}\PY{o}{.}\PY{n}{index}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+    \PY{n}{best\PYZus{}model} \PY{o}{=} \PY{n}{models\PYZus{}dict}\PY{p}{[}\PY{n}{best\PYZus{}model\PYZus{}name}\PY{p}{]}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Best model found }\PY{l+s+si}{\PYZob{}}\PY{n}{best\PYZus{}model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{best\PYZus{}model}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{best\PYZus{}model}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{create\PYZus{}submission}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}full}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}full}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}full}\PY{p}{,} \PY{n}{output\PYZus{}file\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{submission}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Selects the best model, retrains it on the full dataset, handles any final}
+\PY{l+s+sd}{    data cleaning, and generates the submission.csv file.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        models\PYZus{}dict (dict): Dictionary containing all trained and evaluated models.}
+\PY{l+s+sd}{        X\PYZus{}train\PYZus{}full (pd.DataFrame): The complete, aligned training feature set.}
+\PY{l+s+sd}{        y\PYZus{}train\PYZus{}full (pd.Series): The complete training target set.}
+\PY{l+s+sd}{        X\PYZus{}test\PYZus{}full (pd.DataFrame): The complete, aligned test feature set.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{params} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}
+    \PY{n}{model\PYZus{}type\PYZus{}name} \PY{o}{=} \PY{n+nb}{type}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{o}{.}\PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}}
+
+    \PY{n}{model} \PY{o}{=} \PY{k+kc}{None}
+
+    
+    \PY{k}{match} \PY{n}{model\PYZus{}type\PYZus{}name}\PY{p}{:}
+        \PY{k}{case} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+            \PY{n}{model} \PY{o}{=} \PY{n}{Ridge}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{params}\PY{p}{)}
+        \PY{k}{case} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RandomForestRegressor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+            \PY{n}{model} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{params}\PY{p}{)}
+        \PY{k}{case} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBRegressor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+            \PY{n}{model} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{params}\PY{p}{)}
+        \PY{k}{case}\PY{+w}{ }\PY{k}{\PYZus{}}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: Unhandled model type }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}type\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return}
+
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{model}\PY{p}{:}
+         \PY{k}{return}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final model for retraining: }\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}type\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}full}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}full}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Retraining complete.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{X\PYZus{}test\PYZus{}prepared} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}full}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{nan\PYZus{}cols} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{nan\PYZus{}cols}\PY{p}{:}
+         \PY{n}{median\PYZus{}value} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}full}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+         \PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{median\PYZus{}value}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filled NaNs in }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ with training data median: }\PY{l+s+si}{\PYZob{}}\PY{n}{median\PYZus{}value}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Making predictions on the prepared test set...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{final\PYZus{}predictions\PYZus{}log} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{p}{)}
+    
+    \PY{n}{final\PYZus{}predictions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{expm1}\PY{p}{(}\PY{n}{final\PYZus{}predictions\PYZus{}log}\PY{p}{)}
+    
+    \PY{n}{submission} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{X\PYZus{}test\PYZus{}prepared}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SalePrice}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{final\PYZus{}predictions}\PY{p}{\PYZcb{}}\PY{p}{)}
+    \PY{n}{submission}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{output\PYZus{}file\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{submission.csv}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ has been created successfully!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Here are the first 5 predictions:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{submission}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train\PYZus{}final}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{align}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}final}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inner}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} make sure the train and test dataset have the same}
+
+\PY{n}{create\PYZus{}submission}\PY{p}{(}\PY{n}{select\PYZus{}best\PYZus{}model}\PY{p}{(}\PY{n}{models}\PY{p}{)}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}final}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}final}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_79_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Best model found xgboost\_best
+\{'mse': 0.012480020428009513, 'rmse': np.float64(0.11171401178012323), 'r2':
+0.9206015347114854\}
+Final model for retraining: XGBRegressor
+Retraining complete.
+Filled NaNs in 'BsmtFinSF1' with training data median: 381.0
+Filled NaNs in 'BsmtFinSF2' with training data median: 0.0
+Filled NaNs in 'BsmtUnfSF' with training data median: 479.0
+Filled NaNs in 'TotalBsmtSF' with training data median: 991.0
+Filled NaNs in 'BsmtFullBath' with training data median: 0.0
+Filled NaNs in 'BsmtHalfBath' with training data median: 0.0
+Filled NaNs in 'GarageCars' with training data median: 2.0
+Filled NaNs in 'GarageArea' with training data median: 479.0
+Making predictions on the prepared test set{\ldots}
+submission.csv' has been created successfully!
+Here are the first 5 predictions:
+     Id      SalePrice
+0  1461  122212.382812
+1  1462  154279.921875
+2  1463  184631.468750
+3  1464  187498.406250
+4  1465  180924.343750
+    \end{Verbatim}
+
+    \section{5. {[}Bonus{]} Improving our Kaggle
+score}\label{bonus-improving-our-kaggle-score}
+
+    Our solutions scores \(0.12810\)
+\href{https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/leaderboard\#}{on
+Kaggle}, which places us \(1172\) on the leaderboard. Let's see if we
+can improve this.
+
+Two things we can do is: 1. \textbf{Feature engineering}, which consists
+of creating new features based on the ones that are correlated with each
+other and retrain the models on this new dataset. 2. \textbf{Model
+ensembling}, which consists of using our best models predictions as new
+features upon which to train another model.
+
+    \subsection{5.1 Feature Engineering}\label{feature-engineering}
+
+    Looking deeper at the
+\href{./data/data_description.txt}{data\_description.txt} file, we can
+see that some features can be merged together: - \texttt{TotalBsmtSF},
+\texttt{1stFlrSF}, \texttt{2ndFlrSF} all represent the floors square
+feets. - \texttt{FullBath}, \texttt{HalfBath}, \texttt{BsmtFullBath},
+\texttt{BsmtHalfBath} all represents the baths present in the house and
+where they are. - \texttt{OpenPorchSF}, \texttt{EnclosedPorch},
+\texttt{3SsnPorch}, \texttt{ScreenPorch} all represent the porches
+square feets. - \texttt{YrSold}, \texttt{YearBuilt} age related features
+- \texttt{YrSold}, \texttt{YearRemodAdd} age related on reworking -
+\texttt{YrSold} == \texttt{YearBuilt}, new house - \texttt{YearRemodAdd}
+!= \texttt{YearBuilt}, was reworked - \texttt{OverallQual},
+\texttt{TotalSF} relating the overall quality to the total square feets
+- \texttt{OverallQual}, \texttt{HouseAge} relating the overall quality
+to the house age
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{add\PYZus{}features}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalBsmtSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1stFlrSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2ndFlrSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalBath}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FullBath}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HalfBath}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtFullBath}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BsmtHalfBath}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalPorchSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OpenPorchSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EnclosedPorch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{3SsnPorch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ScreenPorch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HouseAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YrSold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RemodelAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YrSold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearRemodAdd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsNew}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YrSold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{WasRemodeled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearRemodAdd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{!=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OverallQual\PYZus{}x\PYZus{}TotalSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OverallQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TotalSF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OverallQual\PYZus{}x\PYZus{}HouseAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OverallQual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HouseAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train\PYZus{}dataset} \PY{o}{=} \PY{n}{add\PYZus{}features}\PY{p}{(}\PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset} \PY{o}{=} \PY{n}{add\PYZus{}features}\PY{p}{(}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{X} \PY{o}{=} \PY{n}{train\PYZus{}dataset}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{train\PYZus{}dataset}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{models\PYZus{}to\PYZus{}evaluate} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}feature\PYZus{}engineering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{GridSearchCV}\PY{p}{(}
+        \PY{n}{estimator}\PY{o}{=}\PY{n}{Ridge}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+        \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{p}{\PYZob{}} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{logspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{)} \PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+        \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+    \PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}feature\PYZus{}engineering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{RandomizedSearchCV}\PY{p}{(}
+        \PY{n}{estimator}\PY{o}{=}\PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+        \PY{n}{param\PYZus{}distributions}\PY{o}{=}\PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{k+kc}{None}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}samples\PYZus{}split}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}samples\PYZus{}leaf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sqrt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        \PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+        \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}
+        \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}
+    \PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}feature\PYZus{}engineering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{GridSearchCV}\PY{p}{(}
+        \PY{n}{estimator}\PY{o}{=}\PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}\PY{p}{,}
+        \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{]}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}
+        \PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}
+        \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+    \PY{p}{)}
+\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{searcher} \PY{o+ow}{in} \PY{n}{models\PYZus{}to\PYZus{}evaluate}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}
+
+    \PY{n}{searcher}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{searcher}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+    
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_85_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                       rmse        r2
+xgboost\_best                       0.111714  0.920602
+ridge\_best                         0.112727  0.919156
+ridge\_feature\_engineering          0.113245  0.918410
+ridge                              0.113688  0.917771
+xgboost\_feature\_engineering        0.113850  0.917536
+random\_forest\_best                 0.135646  0.882939
+random\_forest                      0.137517  0.879688
+random\_forest\_feature\_engineering  0.138983  0.877109
+xgboost                            0.144381  0.867377
+\end{Verbatim}
+\end{tcolorbox}
+        
+    However this did not find a better model unfortunately, our best
+\textbf{xgboost\_best} remains the best.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train\PYZus{}final}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}final} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{align}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}final}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inner}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} make sure the train and test dataset have the same}
+
+\PY{n}{create\PYZus{}submission}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}feature\PYZus{}engineering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}final}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}test\PYZus{}final}\PY{p}{,} \PY{n}{output\PYZus{}file\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{submission\PYZus{}feature\PYZus{}engineered}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Final model for retraining: Ridge
+Retraining complete.
+Filled NaNs in 'BsmtFinSF1' with training data median: 381.0
+Filled NaNs in 'BsmtFinSF2' with training data median: 0.0
+Filled NaNs in 'BsmtUnfSF' with training data median: 479.0
+Filled NaNs in 'TotalBsmtSF' with training data median: 991.0
+Filled NaNs in 'BsmtFullBath' with training data median: 0.0
+Filled NaNs in 'BsmtHalfBath' with training data median: 0.0
+Filled NaNs in 'GarageCars' with training data median: 2.0
+Filled NaNs in 'GarageArea' with training data median: 479.0
+Making predictions on the prepared test set{\ldots}
+submission.csv' has been created successfully!
+Here are the first 5 predictions:
+     Id      SalePrice
+0  1461  115551.721936
+1  1462  147277.669182
+2  1463  173289.044735
+3  1464  197218.154716
+4  1465  188098.595276
+    \end{Verbatim}
+
+    As a result, submitting the best model trained on the engineered
+features scores worse on Kaggle (\(0.13214\)) than our
+\textbf{xgboost\_best} best submission.
+
+    \subsection{5.2 Model Ensembling
+(Stacking)}\label{model-ensembling-stacking}
+
+    \textbf{Stacking} is an advanced ensembling technique that involves
+combining the predictions from multiple different machine learning
+models. We use a ``meta-model'' that learns how to best combine the
+outputs of several ``base models'' to produce a final, often more
+accurate, prediction.
+
+The main idea is to take multiple models with their strenghts and
+weaknesses and compensate the weaknesses with other models strenghts
+making our final model hopefully more robust.
+
+To implement the stacking we need to ensure that the predictions used to
+train our meta-model are ``clean'' meaning the base models that
+generated them had not seen that same data during their own training. If
+we train and predict on the same data, our meta-model will learn from
+over-optimistic predictions and fail to generalize to new data.
+
+We achieve this by generating predictions in two different ways: 1. For
+the \textbf{Training Set (Creating Meta-Features)}: We use
+\textbf{K-Fold cross-validation}. For \textbf{each fold}, we train our
+base models on the other \textbf{K-1 folds} and then make predictions on
+the held-out fold. We repeat this process for all folds until we have a
+complete set of predictions for our entire training dataset. These are
+called ``out-of-fold'' predictions, and they serve as the feature set to
+train our meta-model. 2. For the \textbf{Test Set (Creating the
+Submission)}: To generate predictions for the final, unseen test data,
+we train our base models on the \textbf{entire} training dataset. This
+allows each base model to learn from all the available information
+before making its final prediction on the test data. The meta-model then
+takes these predictions as input to generate the final submission file.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{KFold}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{RidgeCV}
+
+\PY{n}{train\PYZus{}dataset} \PY{o}{=} \PY{n}{add\PYZus{}features}\PY{p}{(}\PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{test\PYZus{}dataset} \PY{o}{=} \PY{n}{add\PYZus{}features}\PY{p}{(}\PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{X} \PY{o}{=} \PY{n}{train\PYZus{}dataset}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{train\PYZus{}dataset}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{base\PYZus{}models} \PY{o}{=} \PY{p}{[}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{base\PYZus{}model\PYZus{}names} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xgboost\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random\PYZus{}forest\PYZus{}best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k+kc}{None}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{RidgeCV}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{kf} \PY{o}{=} \PY{n}{KFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{n}{random\PYZus{}state}\PY{p}{)}
+
+\PY{n}{meta\PYZus{}features\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{meta\PYZus{}features\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{model} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Processing base model }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{base\PYZus{}model\PYZus{}names}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Create out\PYZhy{}of\PYZhy{}fold predictions for training data}
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{kf}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{p}{:}
+        \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{)}
+        \PY{n}{meta\PYZus{}features\PYZus{}train}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Create predictions for test data (by fitting on full training data)}
+    \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+    \PY{n}{meta\PYZus{}features\PYZus{}test}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{meta\PYZus{}features\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{meta\PYZus{}features\PYZus{}test}\PY{p}{)}
+
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{rmse} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mse}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metrics}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ridge\PYZus{}stacked}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{compare\PYZus{}models}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Processing base model 1/3: ridge\_best{\ldots}
+Processing base model 2/3: xgboost\_best{\ldots}
+Processing base model 3/3: random\_forest\_best{\ldots}
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_91_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                       rmse        r2
+ridge\_stacked                      0.109142  0.924216
+xgboost\_best                       0.111714  0.920602
+ridge\_best                         0.112727  0.919156
+ridge\_feature\_engineering          0.113245  0.918410
+ridge                              0.113688  0.917771
+xgboost\_feature\_engineering        0.113850  0.917536
+random\_forest\_best                 0.135646  0.882939
+random\_forest                      0.137517  0.879688
+random\_forest\_feature\_engineering  0.138983  0.877109
+xgboost                            0.144381  0.867377
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can see that our \textbf{ridge\_stacked} is the best performing model
+we trained so far!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}full\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{target\PYZus{}column}\PY{p}{,} \PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y\PYZus{}full\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{transformed\PYZus{}to\PYZus{}log\PYZus{}target\PYZus{}column}\PY{p}{]}
+\PY{n}{X\PYZus{}final\PYZus{}test} \PY{o}{=} \PY{n}{df\PYZus{}test\PYZus{}final}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{X\PYZus{}full\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}final\PYZus{}test} \PY{o}{=} \PY{n}{X\PYZus{}full\PYZus{}train}\PY{o}{.}\PY{n}{align}\PY{p}{(}\PY{n}{X\PYZus{}final\PYZus{}test}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inner}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{n}{test\PYZus{}nan\PYZus{}cols} \PY{o}{=} \PY{n}{X\PYZus{}final\PYZus{}test}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{X\PYZus{}final\PYZus{}test}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{test\PYZus{}nan\PYZus{}cols}\PY{p}{:}
+    \PY{n}{median\PYZus{}value} \PY{o}{=} \PY{n}{X\PYZus{}full\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+    \PY{n}{X\PYZus{}final\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{X\PYZus{}final\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{median\PYZus{}value}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Filled NaNs in }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ with training data median for test dataset: }\PY{l+s+si}{\PYZob{}}\PY{n}{median\PYZus{}value}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generating meta\PYZhy{}features for the entire training set (out\PYZhy{}of\PYZhy{}fold)...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{meta\PYZus{}features\PYZus{}full\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{X\PYZus{}full\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{meta\PYZus{}features\PYZus{}final\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{X\PYZus{}final\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{model} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Processing train meta\PYZhy{}features with model }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{base\PYZus{}model\PYZus{}names}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{kf}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{X\PYZus{}full\PYZus{}train}\PY{p}{)}\PY{p}{:}
+
+        \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}full\PYZus{}train}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}full\PYZus{}train}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Predict on the validation fold}
+        \PY{n}{meta\PYZus{}features\PYZus{}full\PYZus{}train}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}full\PYZus{}train}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{model} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generating test meta\PYZhy{}features with model }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{base\PYZus{}models}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Fit on the ENTIRE training data}
+    \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}full\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}full\PYZus{}train}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Predict on the final test data}
+    \PY{n}{meta\PYZus{}features\PYZus{}final\PYZus{}test}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}final\PYZus{}test}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Training the final stacked model on full meta\PYZhy{}features...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{final\PYZus{}stacked\PYZus{}model} \PY{o}{=} \PY{n}{RidgeCV}\PY{p}{(}\PY{p}{)}
+\PY{n}{final\PYZus{}stacked\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{meta\PYZus{}features\PYZus{}full\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}full\PYZus{}train}\PY{p}{)}
+
+\PY{n}{final\PYZus{}predictions\PYZus{}log} \PY{o}{=} \PY{n}{final\PYZus{}stacked\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{meta\PYZus{}features\PYZus{}final\PYZus{}test}\PY{p}{)}
+
+\PY{n}{final\PYZus{}predictions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{expm1}\PY{p}{(}\PY{n}{final\PYZus{}predictions\PYZus{}log}\PY{p}{)}
+
+\PY{n}{submission\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{X\PYZus{}final\PYZus{}test}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SalePrice}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{final\PYZus{}predictions}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{submission\PYZus{}df}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{submission\PYZus{}stacked.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{File saved!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Filled NaNs in 'BsmtFinSF1' with training data median for test dataset: 381.0
+Filled NaNs in 'BsmtFinSF2' with training data median for test dataset: 0.0
+Filled NaNs in 'BsmtUnfSF' with training data median for test dataset: 479.0
+Filled NaNs in 'TotalBsmtSF' with training data median for test dataset: 991.0
+Filled NaNs in 'BsmtFullBath' with training data median for test dataset: 0.0
+Filled NaNs in 'BsmtHalfBath' with training data median for test dataset: 0.0
+Filled NaNs in 'GarageCars' with training data median for test dataset: 2.0
+Filled NaNs in 'GarageArea' with training data median for test dataset: 479.0
+Generating meta-features for the entire training set (out-of-fold){\ldots}
+Processing train meta-features with model 1/3: ridge\_best{\ldots}
+Processing train meta-features with model 2/3: xgboost\_best{\ldots}
+Processing train meta-features with model 3/3: random\_forest\_best{\ldots}
+    \end{Verbatim}
+
+    And indeed submitting this on Kaggle results in our best-so-far score of
+\(0.12624\).
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
