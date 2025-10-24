@@ -1,0 +1,41 @@
+# Core LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.toc
+*.bbl
+*.blg
+*.idx
+*.ind
+*.ilg
+*.out
+*.nav
+*.snm
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.vrb
+*.xdv
+
+# Intermediate documents
+*.dvi
+*.ps
+*.pdfsync  # except beamer.pdf, which isn't matched
+
+# Minted package temporary files
+_minted/
+*.highlight.minted
+*.index.minted
+*.style.minted
+
+# Other Beamer-specific
+*.vrb  # Already covered, but explicit for frames
+
+# Editor backups and temps (common in LaTeX workflows)
+*.bak
+*.swp
+*.swo
+*~
+.#*
+
