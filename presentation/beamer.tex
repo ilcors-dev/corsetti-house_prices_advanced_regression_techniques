@@ -13,25 +13,25 @@
 
 \begin{frame}
 \frametitle{Project Objective \& Approach}
-To build a regression model that predicts the sale price of houses in Ames, Iowa, using advanced regression techniques.
+To \textbf{build a regression model} that predicts the \textbf{sale price of houses} in Ames, Iowa, using advanced regression techniques.
 \
 The workflow followed these steps:
 
-\begin{itemize}
+\begin{enumerate}
     \item Exploratory Data Analysis (EDA)
     \item Data cleaning and preprocessing
     \item Modeling \& Evaluation
     \item Bonus - Trying to improve the Kaggle score
-\end{itemize}
+\end{enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{The Dataset}
-\begin{enumerate}
+\begin{itemize}
     \item \textbf{1460} training samples with \textbf{79} features describing various aspects of residential homes
     \item Mixed data types: \textbf{numerical} (e.g GrLivArea), \textbf{categorical} (e.g Neighborhood), \textbf{ordinal} (e.g OverallQual)
     \item Target variable in the train.csv dataset: **SalePrice**
-\end{enumerate}
+\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -141,7 +141,6 @@ $$R^2=1-\frac{\mathrm{SS}_{\mathrm{res}}}{\mathrm{SS}_{\mathrm{tot}}}$$
 \normalsize
 \end{frame}
 
-
 \begin{frame}
 \frametitle{Modeling: Ridge Regression}
 \centering
@@ -154,10 +153,29 @@ $$R^2=1-\frac{\mathrm{SS}_{\mathrm{res}}}{\mathrm{SS}_{\mathrm{tot}}}$$
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Modeling: Ridge Regression}
+
+\begin{minted}[breaklines=true, fontsize=\tiny]{python}
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    'alpha': np.logspace(-2, 3, 20) # generates a list of values from .01 to 1000
+}
+
+ridge_grid_search = GridSearchCV(
+    estimator=Ridge(random_state=random_state),
+    param_grid=param_grid,
+    cv=5,
+    scoring='neg_mean_squared_error' # take the negative of mse since GridSearchCV works by taking the best the highest value out of the estimation
+)
+\end{minted}
+\end{frame}
+
 \begin{frame}
 \frametitle{Advanced Models: Random Forest \& XGBoost}
 \centering
-    \includegraphics[width=.7\textwidth]{../challenge/main_files/main_73_0.png}
+    \includegraphics[width=1\textwidth]{../challenge/main_files/main_73_0.png}
 
 \begin{itemize}
     \item \textbf{Tree based ensemble models} that can capture non-linear relationships and interactions between features
