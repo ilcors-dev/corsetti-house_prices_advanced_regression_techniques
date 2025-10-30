@@ -132,11 +132,11 @@ encoded_train = ohe.fit_transform(df_final[nominal_cols])
 
 \footnotesize
 $$\mathrm{error}=\mathrm{actual}-\mathrm{predicted}$$
-$$\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}-\mathrm{predicted})^2$$
-$$\mathrm{RMSE}=\sqrt{\mathrm{MSE}}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}-\mathrm{predicted})^2}$$
+$$\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}_i-\mathrm{predicted}_i)^2$$
+$$\mathrm{RMSE}=\sqrt{\mathrm{MSE}}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(\mathrm{actual}_i-\mathrm{predicted}_i)^2}$$
 
-$$\mathrm{SS}_{\mathrm{res}}(\mathrm{Sum\ of\ squared\ residuals})=\sum{i=1}^{n}(\mathrm{actual}-\mathrm{prediction})^2$$
-$$\mathrm{SS}_{\mathrm{tot}}(\mathrm{Total\ sum\ of\ squares})=\sum{i=1}^{n}(\mathrm{actual}-\mathrm{mean})^2$$
+$$\mathrm{SS}_{\mathrm{res}}(\mathrm{Sum\ of\ squared\ residuals})=\sum_{i=1}^n(\mathrm{actual_i}-\mathrm{prediction}_i)^2$$
+$$\mathrm{SS}_{\mathrm{tot}}(\mathrm{Total\ sum\ of\ squares})=\sum_{i=1}^n(\mathrm{actual_i}-\mathrm{mean})^2$$
 $$R^2=1-\frac{\mathrm{SS}_{\mathrm{res}}}{\mathrm{SS}_{\mathrm{tot}}}$$
 \normalsize
 \end{frame}
