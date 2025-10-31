@@ -29,7 +29,7 @@ The workflow followed these steps:
 \frametitle{The Dataset}
 \begin{itemize}
     \item \textbf{1460} training samples with \textbf{79} features describing various aspects of residential homes
-    \item Mixed data types: \textbf{numerical} (e.g GrLivArea), \textbf{categorical} (e.g Neighborhood), \textbf{ordinal} (e.g OverallQual)
+    \item Mixed data types: \textbf{numerical} (e.g GrLivArea), \textbf{nominal} (e.g Neighborhood), \textbf{ordinal} (e.g OverallQual)
     \item Target variable in the train.csv dataset: **SalePrice**
 \end{itemize}
 \end{frame}
@@ -82,7 +82,7 @@ Solution: Remove outliers based on domain knowledge as they were likely data ent
 
 \begin{itemize}
     \item Ordinal features (e.g ExternalQual: Ex, Gd, TA, Fa and Po) need to be mapped to numerical values \textbf{based on their order}.
-    \item Categorical features (e.g Neighborhood) are \textbf{one-hot encoded} to \textbf{create binary features} since there is no ordinal relationship between categories.
+    \item Nominal features (e.g Neighborhood) are \textbf{one-hot encoded} to \textbf{create binary features} since there is no ordinal relationship between categories.
 \end{itemize}
 
 \end{frame}
